@@ -13,3 +13,12 @@ create table employee_payroll(
 );
 
 desc employee_payroll;
+
+/*--------UC3----------*/
+insert into employee_payroll(name, salary, startDate) values('Ashok', 20000.0, '2021-01-01');
+insert into employee_payroll(name, salary, startDate) values('John', 30000.0, '2021-01-02');
+insert into employee_payroll(name, salary, startDate) values('Pooja', 250000.0, '2022-01-01');
+insert into employee_payroll(name, salary, startDate) values('Kumari', 20000.0, '2022-01-04');
+
+/*--------UC4----------*/
+select * from employee_payroll;
