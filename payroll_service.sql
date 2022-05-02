@@ -30,3 +30,15 @@ select * from employee_payroll where startDate between cast('2022-01-01' as date
 /*--------UC6----------*/
 alter table employee_payroll add gender char(1) after name;
 update employee_payroll set gender = 'F' where id = 3;
+
+/*--------UC7----------*/
+select gender, sum(salary) from employee_payroll where gender = 'M' group by gender;
+select gender, sum(salary) from employee_payroll where gender = 'F' group by gender;
+
+select avg(salary) from employee_payroll;
+
+select min(salary) as lowSalary from employee_payroll;
+select max(salary) as highSalary from employee_payroll;
+
+select count(gender) from employee_payroll where gender = 'M' group by gender;
+select count(gender) from employee_payroll where gender = 'F' group by gender;
