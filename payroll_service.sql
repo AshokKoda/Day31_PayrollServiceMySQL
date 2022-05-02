@@ -26,3 +26,7 @@ select * from employee_payroll;
 /*--------UC5----------*/
 select salary from employee_payroll where name = "Ashok";
 select * from employee_payroll where startDate between cast('2022-01-01' as date) and Date(now());
+
+/*--------UC6----------*/
+alter table employee_payroll add gender char(1) after name;
+update employee_payroll set gender = 'F' where id = 3;
