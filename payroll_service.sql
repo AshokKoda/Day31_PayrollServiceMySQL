@@ -15,8 +15,8 @@ create table employee_payroll(
 desc employee_payroll;
 
 /*--------UC3----------*/
-insert into employee_payroll(name, salary, startDate) values('Ashok', 20000.0, '2021-01-01');
-insert into employee_payroll(name, salary, startDate) values('John', 30000.0, '2021-01-02');
+insert into employee_payroll(name, salary, startDate) values('Jack', 50000.0, '2021-01-02');
+insert into employee_payroll(name, salary, startDate) values('Rajesh', 150000.0, '2021-09-15');
 insert into employee_payroll(name, salary, startDate) values('Pooja', 250000.0, '2022-01-01');
 insert into employee_payroll(name, salary, startDate) values('Kumari', 20000.0, '2022-01-04');
 
@@ -29,7 +29,7 @@ select * from employee_payroll where startDate between cast('2022-01-01' as date
 
 /*--------UC6----------*/
 alter table employee_payroll add gender char(1) after name;
-update employee_payroll set gender = 'F' where id = 3;
+update employee_payroll set gender = 'F' where id = 4;
 
 /*--------UC7----------*/
 select gender, sum(salary) from employee_payroll where gender = 'M' group by gender;
@@ -69,6 +69,7 @@ update employee_payroll set income_tax=(taxable_pay*0.2) where id!=0;
 update employee_payroll set net_pay=(taxable_pay-income_tax) where id!=0;
 
 select * from employee_payroll where name="Pooja";
+desc employee_payroll;
 
 /*--------UC11, UC12----------*/
 create table department_tbl (
@@ -100,6 +101,10 @@ create table employee_department (
 
 insert into employee_department (emp_id, dept_id) values (3,3);
 insert into employee_department (emp_id, dept_id) values (1,3);
+insert into employee_department (emp_id, dept_id) values (9,4);
+insert into employee_department (emp_id, dept_id) values (9,3);
+insert into employee_department (emp_id, dept_id) values (10,1);
+insert into employee_department (emp_id, dept_id) values (10,2);
 select * from employee_department;
 
 select ep.id, ep.name, d.dept_name, d.dept_desc from employee_payroll ep, department_tbl d, employee_department ed
@@ -126,3 +131,21 @@ alter table employee_payroll drop column basic_pay, drop column deduction,
 drop column taxable_pay, drop column income_tax, drop column net_pay;
 
 select ep.id, ep.name, s.* from employee_payroll ep, salary_tbl s;
+
+ALTER TABLE salary_tbl ADD CONSTRAINT `salary_fk`   
+FOREIGN KEY(emp_id) REFERENCES employee_payroll (id) ON DELETE CASCADE; 
+
+ALTER TABLE salary_tbl ADD CONSTRAINT `updatesalary_fk`   
+FOREIGN KEY(emp_id) REFERENCES employee_payroll (id) ON UPDATE CASCADE; 
+
+ALTER TABLE employee_department ADD CONSTRAINT `dept_fk`   
+FOREIGN KEY(emp_id) REFERENCES employee_payroll (id) ON DELETE CASCADE; 
+
+ALTER TABLE employee_department ADD CONSTRAINT `deptt_fk`   
+FOREIGN KEY(dept_id) REFERENCES department_tbl (dept_id) ON DELETE CASCADE; 
+
+/*--------
+Use ON DELETE CASCADE because of employee_payroll table is foreign_key with another table.
+When you delete a data in employee_payroll table automatically delete related data in another table also.
+----------*/
+delete from employee_payroll where id = 3;
